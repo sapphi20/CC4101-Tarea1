@@ -55,10 +55,20 @@ RUT: 18.880.887-5
           #f
   ))
 
-;; sumaMon :: Number Integer Polynomial -> Polynomial
-;; retorna un polinomio en forma normal al sumar c*x^m
-;; con un polinomio normalizado p
-(define (sumaMon c m p)
+;; removeZeros :: Polynomial -> Polynomial
+;; quita los terminos de un polinomio con coeficiente nulo
+(define (removeZeros p)
+  (match p
+    [(nullp) (nullp)]
+    [(plus coef exp rem)
+     (if (zero? coef)
+         (removeZeros rem)
+         (plus coef exp (removeZeros rem)))]))
+
+;; sumaMonAux :: Number Integer Polynomial -> Polynomial
+;; retorna un polinomio al sumar c*x^m con un polinomio p
+;; el resultado no esta normalizado necesariamente por la condicion (ii)
+(define (sumaMonAux c m p)
   (match p
     [(nullp)
      (if (zero? c)
@@ -66,20 +76,22 @@ RUT: 18.880.887-5
          (plus c m (nullp)))]
     [(plus coef exp rem)
      (cond
-       [(zero? coef) (sumaMon c m rem)]
        [(= m exp) (plus (+ c coef) exp rem)]
        [(< m exp) (plus coef exp (sumaMon c m rem))]
-       [else (plus c m (plus coef exp rem))])]
-    ))
+       [else (plus c m (plus coef exp rem))])]))
 
+;; sumaMon :: Number Integer Polynomial -> Polynomial
+;; retorna un polinomio en forma normal al sumar c*x^m
+;; con un polinomio normalizado p
+(define (sumaMon c m p)
+  (removeZeros (sumaMonAux c m p)))
 
 ;; normalize :: Polynomial -> Polynomial
 ;; Normaliza un polinomio
 (define (normalize p)
   (match p
     [(nullp) (nullp)]
-    [(plus coef exp rem) (sumaMon coef exp (normalize rem))])
-  )
+    [(plus coef exp rem) (removeZeros (sumaMon coef exp (normalize rem)))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 2      ;;;;;;;;;;;;;;;;;;;;;;
@@ -106,27 +118,33 @@ RUT: 18.880.887-5
 
 
 
-
-#|
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 3      ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; sumaPoly :: Polynomial Polynomial -> Polynomial
 ;; Suma dos polinomios (no necesariamente normalizados)
-(define (sumaPoly p1 p2)
+;(define (sumaPoly p1 p2)
   ; complete su codigo aqui
-  )
+;  )
 
+;;mapPoly :: (Number Integer -> Number * Integer) Polynomial -> Polynomial
+;; devuelve el polinomio que resulta de aplicar f a cada coeficiente
+;; y exponente de p
+(define (mapPoly f p)
+  (match p
+    [(nullp) (nullp)]
+    [(plus coef exp rem) (plus (f coef exp) (mapPoly f rem))]
+  ))
 
 ;; multPoly :: Polynomial Polynomial -> Polynomial
 ;; Multiplica dos polinomios (no necesariamente normalizados)
-(define (multPoly p1 p2)
+;(define (multPoly p1 p2)
   ;
-  )
+;  )
 
 
 
 
-
+#|
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
 ;; foldPoly :: A (Number Integer -> A) -> (Polynomial -> A)
 (define (foldPoly a f)
