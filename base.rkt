@@ -132,8 +132,7 @@ RUT: 18.880.887-5
 (define (mapPoly f p)
   (match p
     [(nullp) (nullp)]
-    [(plus coef exp rem) (plus (f coef exp) (mapPoly f rem))]
-  ))
+    [(plus coef exp rem) (plus (car (f coef exp)) (cdr (f coef exp)) (mapPoly f rem))]))
 
 ;; multPoly :: Polynomial Polynomial -> Polynomial
 ;; Multiplica dos polinomios (no necesariamente normalizados)
@@ -158,5 +157,4 @@ RUT: 18.880.887-5
 ;; Evalua un polinomio en un valor dado
 (define (evalPoly v)
   ; complete su codigo aqui
-  )
-|#
+  )|#
