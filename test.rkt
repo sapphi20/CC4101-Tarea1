@@ -9,13 +9,39 @@
 (define pol1 (plus 3 2 (plus 4 5 (plus 5 0 (nullp)))))
 (define pol2 (plus 0 10 (plus 4 5 (plus 0 3 (plus 3 2 (plus 5 0 (nullp)))))))
 
-(test (cond1 pol1) #f)
-(test (cond2 pol2) #f)
+;;condiciones para normalice
 
-(test (nf? pol1) #f)
-(test (nf? pol2) #f)
-(test (nf? (plus 4 5 (plus 3 2 (plus 5 0 (nullp))))) #t)
+(test (cond1 pol1)
+      #f)
+(test (cond1 (plus 3 3(plus 4 1(nullp))))
+      #t)
+(test (cond1 (nullp))
+      #t)
+(test (cond2 pol2)
+      #f)
+(test (cond2 pol1)
+      #t)
+(test (cond2 (nullp))
+      #t)
 
+;;nf?
+(test (nf? pol1)
+      #f)
+(test (nf? pol2)
+      #f)
+(test (nf? (nullp))
+      #t)
+(test (nf? (plus 4 5 (plus 3 2 (plus 5 0 (nullp)))))
+      #t)
+
+;; sumMon
+
+(test (sumaMon 0 2 (nullp))
+      (nullp))
+(test (sumaMon 2 2(plus -2 2(nullp)))
+      (nullp))
+(test (sumaMon 4 6(plus 1 1(nullp)))
+      (plus 4 6(plus 1 1(nullp))))
 (test (sumaMon 6 6 (plus 4 4 (plus 2 2 (nullp))))
       (plus 6 6 (plus 4 4 (plus 2 2 (nullp)))))
 (test (sumaMon 3 3 (plus 4 4 (plus 2 2 (nullp))))
@@ -25,18 +51,23 @@
 (test (sumaMon -2 2 (plus 4 4 (plus 2 2 (nullp))))
       (plus 4 4 (nullp)))
 
+;; normalize
+
+(test (normalize (nullp))
+      (nullp))
+(test (normalize (plus 1 1(nullp)))
+      (plus 1 1(nullp)))
+(test (normalize (plus 0 5 (nullp)))
+      (nullp))
 (test (normalize (plus 4 5 (plus 8 10 (plus 0 8 (plus 7 10 (plus 2 7 (nullp)))))))
       (plus 15 10 (plus 2 7 (plus 4 5 (nullp)))))
-;; (plus 0 10 (plus 4 5 (plus 0 3 (plus 3 2 (plus 5 0 (nullp))))))
 (test (normalize pol1)
       (plus 4 5 (plus 3 2 (plus 5 0 (nullp)))))
 (test (normalize pol2)
       (plus 4 5 (plus 3 2 (plus 5 0 (nullp)))))
-(test (normalize (plus 0 5 (nullp))) (nullp))
-(test (normalize (plus 0 2 (plus 5 2 (nullp)))) (plus 5 2 (nullp)))
+(test (normalize (plus 0 2 (plus 5 2 (nullp))))
+      (plus 5 2 (nullp)))
       
-
-
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 2      ;;;;;;;;;;;;;;;;;;;;;;
 
 (test (degree (plus 4 4 (plus 5 5 (plus 1 1 (nullp))))) 5)
