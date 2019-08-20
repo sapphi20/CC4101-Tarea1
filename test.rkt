@@ -11,18 +11,23 @@
 
 ;;condiciones para normalice
 
+;;cond1 
 (test (cond1 pol1)
       #f)
 (test (cond1 (plus 3 3(plus 4 1(nullp))))
       #t)
 (test (cond1 (nullp))
       #t)
+(test(cond1(plus 1 -3 (plus 10 -4(plus 2 -5(nullp)))))
+     #t)
+;;cond2
 (test (cond2 pol2)
       #f)
 (test (cond2 pol1)
       #t)
 (test (cond2 (nullp))
       #t)
+
 
 ;;nf?
 (test (nf? pol1)
@@ -59,6 +64,8 @@
       (plus 1 1(nullp)))
 (test (normalize (plus 0 5 (nullp)))
       (nullp))
+(test (normalize (plus 1 -4(plus 1 -2(plus 3 4(nullp)))))
+      (plus 3 4(plus 1 -2(plus 1 -4(nullp)))))
 (test (normalize (plus 4 5 (plus 8 10 (plus 0 8 (plus 7 10 (plus 2 7 (nullp)))))))
       (plus 15 10 (plus 2 7 (plus 4 5 (nullp)))))
 (test (normalize pol1)
@@ -67,14 +74,36 @@
       (plus 4 5 (plus 3 2 (plus 5 0 (nullp)))))
 (test (normalize (plus 0 2 (plus 5 2 (nullp))))
       (plus 5 2 (nullp)))
+(test (normalize (plus 3 5(plus 2 4(plus -1 4(nullp)))))
+      (plus 3 5(plus 1 4(nullp))))
+(test (normalize (plus 3 5(plus 3 10(plus 2 2(plus -1 10(plus 4 -3(nullp)))))))
+      (plus 2 10(plus 3 5(plus 2 2(plus 4 -3 (nullp))))))
       
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 2      ;;;;;;;;;;;;;;;;;;;;;;
 
-(test (degree (plus 4 4 (plus 5 5 (plus 1 1 (nullp))))) 5)
-(test/exn (degree (nullp)) "El polinomio nulo no tiene grado")
+;;degree
+(test (degree (plus 4 4 (plus 5 5 (plus 1 1 (nullp)))))
+      5)
+(test (degree (plus  1 4(plus 1 3(plus 1 2(plus 1 1(nullp))))))
+      4)
+(test/exn (degree (nullp))
+          "El polinomio nulo no tiene grado")
+(test/exn (degree (plus 1 4(plus -1 4(nullp))))
+          "El polinomio nulo no tiene grado")
+(test (degree (plus -1 -5(plus 1 -4(nullp))))
+      -4)
 
-(test (coefficient 10 (plus 2 1 (plus 5 5 (plus 1 1 (nullp))))) 0)
-(test (coefficient 5 (plus 4 5 (plus 8 10 (plus 0 8 (plus 7 10 (plus 2 7 (nullp))))))) 4)
+;; coefficient
+(test (coefficient 10 (plus 2 1 (plus 5 5 (plus 1 1 (nullp)))))
+      0)
+(test (coefficient 5 (plus 4 5 (plus 8 10 (plus 0 8 (plus 7 10 (plus 2 7 (nullp)))))))
+      4)
+(test (coefficient 0 (nullp))
+      0)
+(test ( coefficient 1(plus 4 5 (plus 1 1(plus 20 1(plus 1 4(nullp))))))
+      21)
+(test (coefficient 3 (plus 1 1 (plus 3 3(plus -3 3(nullp)))))0)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 3      ;;;;;;;;;;;;;;;;;;;;;;
 
