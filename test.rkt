@@ -38,6 +38,18 @@
       #t)
 (test (nf? (plus 4 5 (plus 3 2 (plus 5 0 (nullp)))))
       #t)
+;;removeZeros
+(test(removeZeros (nullp))
+     (nullp))
+(test(removeZeros (plus 1 1(nullp)))
+     (plus 1 1(nullp)))
+(test(removeZeros (plus 0 2(plus 1 1(nullp))))
+     (plus 1 1(nullp)))
+(test(removeZeros (plus 1 1(plus 2 3(plus -2 3(nullp)))))
+     (plus 1 1(plus 2 3(plus -2 3(nullp)))))
+(test(removeZeros(plus 0 3(plus 0 2 (plus 0 6(nullp)))))
+     (nullp))
+;;sumMon
 
 ;; sumMon
 
