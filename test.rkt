@@ -9,7 +9,7 @@
 (define pol1 (plus 3 2 (plus 4 5 (plus 5 0 (nullp)))))
 (define pol2 (plus 0 10 (plus 4 5 (plus 0 3 (plus 3 2 (plus 5 0 (nullp)))))))
 
-;;condiciones para normalice
+;;;condiciones para normalice
 
 ;;cond1 
 (test (cond1 pol1)
@@ -20,6 +20,11 @@
       #t)
 (test(cond1(plus 1 -3 (plus 10 -4(plus 2 -5(nullp)))))
      #t)
+(test(cond1 (plus 4 5(plus 4 5(nullp))))
+     #f)
+(test(cond1 (plus 4 5(plus 3 5(plus 5 4(nullp)))))
+     #f)
+
 ;;cond2
 (test (cond2 pol2)
       #f)
@@ -27,7 +32,6 @@
       #t)
 (test (cond2 (nullp))
       #t)
-
 
 ;;nf?
 (test (nf? pol1)
@@ -38,6 +42,11 @@
       #t)
 (test (nf? (plus 4 5 (plus 3 2 (plus 5 0 (nullp)))))
       #t)
+(test(nf? (plus 4 5(plus 4 5(nullp))))
+     #f)
+(test(nf? (plus 4 5(plus 3 5(plus 5 4(nullp)))))
+     #f)
+
 ;;removeZeros
 (test(removeZeros (nullp))
      (nullp))
@@ -49,7 +58,22 @@
      (plus 1 1(plus 2 3(plus -2 3(nullp)))))
 (test(removeZeros(plus 0 3(plus 0 2 (plus 0 6(nullp)))))
      (nullp))
-;;sumMon
+
+;;sumMonAux
+
+(test (sumaMonAux 0 2 (nullp))
+      (plus 0 2(nullp)))
+(test (sumaMonAux 2 2(plus -2 2(nullp)))
+      (plus 0 2(nullp)))
+(test (sumaMonAux 6 6 (plus 4 4 (plus 2 2 (nullp))))
+      (plus 6 6 (plus 4 4 (plus 2 2 (nullp)))))
+(test (sumaMonAux 3 3 (plus 4 4 (plus 2 2 (nullp))))
+      (plus 4 4 (plus 3 3 (plus 2 2 (nullp)))))
+(test (sumaMonAux 10 2 (plus 4 4 (plus 2 2 (nullp))))
+      (plus 4 4 (plus 12 2 (nullp))))
+(test (sumaMonAux 0 0(nullp))
+      (plus 0 0 (nullp)))
+
 
 ;; sumMon
 
@@ -104,6 +128,8 @@
           "El polinomio nulo no tiene grado")
 (test (degree (plus -1 -5(plus 1 -4(nullp))))
       -4)
+(test (degree (plus 4 5(plus 4 5(nullp))))
+      5)
 
 ;; coefficient
 (test (coefficient 10 (plus 2 1 (plus 5 5 (plus 1 1 (nullp)))))
@@ -119,7 +145,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 3      ;;;;;;;;;;;;;;;;;;;;;;
 
+;;sumaPoly
+;;mapPoly
+;;multPoly
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
+
+;;foldPoly
+;; evalPoly
 
 ;;(test ((evalPoly 3) (plus 2 3 (plus -6 2 (plus 2 1 (plus -1 0 (nullp)))))) 5)
