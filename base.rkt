@@ -31,9 +31,11 @@ RUT: 18.880.887-5
     [(nullp) #t]
     [(plus coef1 exp1
            (plus coef2 exp2 rem))
-     (if (< exp1 exp2)
-         #f
-         (cond1 (plus coef2 exp2 rem)))]
+     (cond
+       [(< exp1 exp2) #f]
+       [(= exp1 exp2) #f]
+       [else
+        (cond1 (plus coef2 exp2 rem))])]
     [(plus coef exp (nullp)) #t]))
 
 ;; cond2 :: Polynomial -> Bool
