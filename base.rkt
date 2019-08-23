@@ -67,13 +67,10 @@ RUT: 18.880.887-5
 
 ;; sumaMonAux :: Number Integer Polynomial -> Polynomial
 ;; retorna un polinomio al sumar c*x^m con un polinomio p
-;; el resultado no esta normalizado necesariamente por la condicion (ii)
+;; el resultado no esta normalizado por la condicion (ii)
 (define (sumaMonAux c m p)
   (match p
-    [(nullp)
-     (if (zero? c)
-         (nullp)
-         (plus c m (nullp)))]
+    [(nullp)(plus c m (nullp))]
     [(plus coef exp rem)
      (cond
        [(= m exp) (plus (+ c coef) exp rem)]
@@ -91,7 +88,7 @@ RUT: 18.880.887-5
 (define (normalize p)
   (match p
     [(nullp) (nullp)]
-    [(plus coef exp rem) (removeZeros (sumaMon coef exp (normalize rem)))]))
+    [(plus coef exp rem) (sumaMon coef exp (normalize rem))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 2      ;;;;;;;;;;;;;;;;;;;;;;
@@ -122,9 +119,10 @@ RUT: 18.880.887-5
 
 ;; sumaPoly :: Polynomial Polynomial -> Polynomial
 ;; Suma dos polinomios (no necesariamente normalizados)
-;(define (sumaPoly p1 p2)
-  ; complete su codigo aqui
-;  )
+(define (sumaPoly p1 p2)
+  (match p1
+    [(nullp) p2]
+    [(plus coef exp rem)(sumaMon coef exp (sumaPoly rem p2))]))
 
 ;;mapPoly :: (Number Integer -> Number * Integer) Polynomial -> Polynomial
 ;; devuelve el polinomio que resulta de aplicar f a cada coeficiente
@@ -136,14 +134,11 @@ RUT: 18.880.887-5
 
 ;; multPoly :: Polynomial Polynomial -> Polynomial
 ;; Multiplica dos polinomios (no necesariamente normalizados)
-;(define (multPoly p1 p2)
-  ;
-;  )
+(define (multPoly p1 p2)
+  (void)
+  )
 
 
-
-
-#|
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
 ;; foldPoly :: A (Number Integer -> A) -> (Polynomial -> A)
 (define (foldPoly a f)
@@ -156,5 +151,5 @@ RUT: 18.880.887-5
 ;; evalPoly :: Number -> (Polynomial -> Number)
 ;; Evalua un polinomio en un valor dado
 (define (evalPoly v)
-  ; complete su codigo aqui
-  )|#
+  (void)
+  )
