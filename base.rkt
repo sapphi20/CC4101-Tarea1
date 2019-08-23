@@ -19,8 +19,6 @@ RUT: 18.880.887-5
   (nullp)
   (plus coef exp rem))
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 1      ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; cond1 :: Polynomial -> Bool
@@ -46,16 +44,14 @@ RUT: 18.880.887-5
     [(plus coef exp rem)
      (if (zero? coef)
          #f
-         (cond2 rem)
-  )]))
+         (cond2 rem))]))
 
 ;; nf? :: Polynomial -> Bool
 ;; Verifica que un polinomio este en forma normal
 (define (nf? p)
   (if (and (cond1 p) (cond2 p))
           #t
-          #f
-  ))
+          #f))
 
 ;; removeZeros :: Polynomial -> Polynomial
 ;; quita los terminos de un polinomio con coeficiente nulo
@@ -92,7 +88,6 @@ RUT: 18.880.887-5
     [(nullp) (nullp)]
     [(plus coef exp rem) (sumaMon coef exp (normalize rem))]))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 2      ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; degree :: Polynomial -> Integer
@@ -100,9 +95,7 @@ RUT: 18.880.887-5
 (define (degree p)
   (match (normalize p)
     [(nullp) (error "El polinomio nulo no tiene grado")]
-    [(plus coef exp rem) exp])
-  )
-
+    [(plus coef exp rem) exp]))
 
 ;; coefficient :: Integer Polynomial -> Number
 ;; Devueve el coeficiente asociado a un exponente dado
@@ -112,10 +105,7 @@ RUT: 18.880.887-5
     [(plus coef exp rem)
      (if (= exp n)
          coef
-         (coefficient n rem))])
-  )
-
-
+         (coefficient n rem))]))
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 3      ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -142,18 +132,15 @@ RUT: 18.880.887-5
     [(plus coef exp rem)
      (sumaPoly (mapPoly (λ(x y) (cons (* x coef)(+ y exp))) p2) (multPoly rem p2))]))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
-;; foldPoly :: A (Number Integer -> A) -> (Polynomial -> A)
+;; foldPoly :: A (Number Integer A -> A) -> (Polynomial -> A)
 (define (foldPoly a f)
   (λ(p)
     (match p
       [(nullp) a]
       [(plus c g r) (f c g ((foldPoly a f) r))])))
 
-
 ;; evalPoly :: Number -> (Polynomial -> Number)
 ;; Evalua un polinomio en un valor dado
 (define (evalPoly v)
-  (void)
-  )
+  (foldPoly 0 (λ(x y z) (+ (* x (expt v y)) z))))
