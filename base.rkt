@@ -137,8 +137,10 @@ RUT: 18.880.887-5
 ;; multPoly :: Polynomial Polynomial -> Polynomial
 ;; Multiplica dos polinomios (no necesariamente normalizados)
 (define (multPoly p1 p2)
-  (void)
-  )
+  (match p1
+    [(nullp) (nullp)]
+    [(plus coef exp rem)
+     (sumaPoly (mapPoly (λ(x y) (cons (* x coef)(+ y exp))) p2) (multPoly rem p2))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
