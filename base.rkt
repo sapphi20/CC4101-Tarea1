@@ -112,9 +112,9 @@ RUT: 18.880.887-5
 ;; sumaPoly :: Polynomial Polynomial -> Polynomial
 ;; Suma dos polinomios (no necesariamente normalizados)
 (define (sumaPoly p1 p2)
-  (match p1
-    [(nullp) p2]
-    [(plus coef exp rem)(sumaMon coef exp (sumaPoly rem p2))]))
+  (match (normalize p1)
+    [(nullp) (normalize p2)]
+    [(plus coef exp rem)(normalize (sumaMon coef exp (sumaPoly rem p2)))]))
 
 ;;mapPoly :: (Number Integer -> Number * Integer) Polynomial -> Polynomial
 ;; devuelve el polinomio que resulta de aplicar f a cada coeficiente
