@@ -178,8 +178,14 @@
      (plus 2 2(plus 1 1(nullp))))
 (test(sumaPoly(plus 0 2(nullp))(nullp))
      (nullp))
-;;(test(sumaPoly(plus 1 1 (plus 2 1(nullp)))(plus 1 1(plus 2 1(nullp))))
-;;     (plus 6 1(nullp)))
+(test(sumaPoly(plus 1 50(nullp))(nullp))
+     (plus 1 50(nullp)))
+(test(sumaPoly(plus 1 1 (plus 2 1(nullp)))(plus 1 1(plus 2 1(nullp))))
+     (plus 6 1(nullp)))
+(test(sumaPoly(plus -2 2(nullp))(plus 2 2(nullp)))
+     (nullp))
+(test (sumaPoly(plus 1 3(nullp))(plus 3 3 (plus 2 2(plus 1 1(nullp)))))
+      (plus 4 3(plus 2 2(plus 1 1(nullp)))))
 
 
 ;;mapPoly
@@ -194,6 +200,7 @@
      (plus 2 5(plus 2 5(nullp))))
 
 ;;multPoly
+
 (test(multPoly(nullp)(nullp))
      (nullp))
 (test(multPoly(plus 2 2(plus 1 1(nullp)))(nullp))
@@ -202,22 +209,33 @@
      (nullp))
 (test(multPoly(plus 1 0(nullp))(plus 10 10(plus 10 12(nullp))))
      (plus 10 12(plus 10 10(nullp))))
-;;faltan test
 (test (multPoly (plus 1 1 (plus 1 0 (nullp)))(plus 1 1 (plus 1 0 (nullp))))
       (plus 1 2 (plus 2 1 (plus 1 0 (nullp)))))
+(test(multPoly(sumaPoly(plus -2 2(nullp))(plus 1 2(nullp)))(plus 1 0(nullp)))
+     (plus -1 2(nullp)))
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
 
 ;;foldPoly
+
 (test ((foldPoly 'fin list) (plus 2 1 (plus 1 0 (nullp))))
       (list 2 1 (list 1 0 'fin)))
 (test((foldPoly 'uwu list)(nullp))
      'uwu)
 
+
 ;; evalPoly
 
-(test((evalPoly 80)(nullp))0)
-(test((evalPoly 1)(plus 1 1(nullp)))1)
-(test((evalPoly 1)(plus 1 1(plus -1 1(nullp))))0)
-(test((evalPoly 1)(sumaPoly(plus 2 1(nullp))(plus 3 1(nullp))))5)
-
-(test ((evalPoly 3)(plus 2 3 (plus -6 2 (plus 2 1 (plus -1 0 (nullp)))))) 5)
+(test((evalPoly 80)(nullp))
+     0)
+(test((evalPoly 1)(plus 1 1(nullp)))
+     1)
+(test((evalPoly 1)(plus 1 1(plus -1 1(nullp))))
+     0)
+(test((evalPoly 1)(sumaPoly(plus 2 1(nullp))(plus 3 1(nullp))))
+     5)
+(test ((evalPoly 3)(plus 2 3 (plus -6 2 (plus 2 1 (plus -1 0 (nullp))))))
+     5)
+(test ((evalPoly 3)(plus 1 3(plus 1 2(plus 1 1(nullp)))))
+      39)
+(test ((evalPoly 0)(plus 4 5(plus 1 3(plus 58 92(plus 1 5(nullp))))))
+      0)
