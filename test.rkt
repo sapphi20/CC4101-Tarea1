@@ -150,7 +150,7 @@
 (test (degree (plus -1 1(plus 1 1(plus 3 3(nullp)))))
       3)
 (test/exn (degree (plus -1 1(plus 1 1(nullp))))
-      "El polinomio nulo no tiene grado")
+          "El polinomio nulo no tiene grado")
 
 ;; coefficient
 (test (coefficient 10 (plus 2 1 (plus 5 5 (plus 1 1 (nullp)))))
@@ -178,6 +178,10 @@
      (plus 2 2(plus 1 1(nullp))))
 (test(sumaPoly(plus 0 2(nullp))(nullp))
      (nullp))
+(test(sumaPoly(plus 0 2(nullp))(plus 1 2 (nullp)))
+     (plus 1 2(nullp)))
+(test(sumaPoly(plus 0 2(nullp))(plus 0 3(nullp)))
+     (nullp))
 (test(sumaPoly(plus 1 50(nullp))(nullp))
      (plus 1 50(nullp)))
 (test(sumaPoly(plus 1 1 (plus 2 1(nullp)))(plus 1 1(plus 2 1(nullp))))
@@ -198,6 +202,12 @@
      (plus 0 2(plus 0 2(nullp))))
 (test(mapPoly(λ(c m)(cons(* c 1)(+ m 3)))(plus 2 2(plus 2 2(nullp))))
      (plus 2 5(plus 2 5(nullp))))
+(test(mapPoly(λ(c m)(cons(- c 1)(+ m 0)))(plus 2 2(plus 2 2(nullp))))
+     (plus 1 2(plus 1 2(nullp))))
+(test(mapPoly(λ(c m)(cons(- c 1)(- m 3)))(plus 2 2(plus 2 2(nullp))))
+     (plus 1 -1(plus 1 -1(nullp))))
+(test(mapPoly(λ(c m)(cons (- c 4)(+ m 80)))(plus 4 2(plus 4 80(nullp))))
+     (plus 0 82 (plus 0 160(nullp))))
 
 ;;multPoly
 
@@ -213,6 +223,11 @@
       (plus 1 2 (plus 2 1 (plus 1 0 (nullp)))))
 (test(multPoly(sumaPoly(plus -2 2(nullp))(plus 1 2(nullp)))(plus 1 0(nullp)))
      (plus -1 2(nullp)))
+(test(multPoly(plus 0 1(nullp))(plus 10 10(plus 10 12(nullp))))
+     (nullp))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
 
 ;;foldPoly
@@ -234,7 +249,7 @@
 (test((evalPoly 1)(sumaPoly(plus 2 1(nullp))(plus 3 1(nullp))))
      5)
 (test ((evalPoly 3)(plus 2 3 (plus -6 2 (plus 2 1 (plus -1 0 (nullp))))))
-     5)
+      5)
 (test ((evalPoly 3)(plus 1 3(plus 1 2(plus 1 1(nullp)))))
       39)
 (test ((evalPoly 0)(plus 4 5(plus 1 3(plus 58 92(plus 1 5(nullp))))))
