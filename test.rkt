@@ -236,7 +236,15 @@
       (list 2 1 (list 1 0 'fin)))
 (test((foldPoly 'uwu list)(nullp))
      'uwu)
-
+(test((foldPoly 0 (λ(x y z) (+ (* x (expt 1 y)) z)))(plus 2 1 (nullp)))
+     2)
+(test((foldPoly 0 (λ(x y z)(- (+ x y) z)))(plus 2 1(nullp)))
+     3)
+(test((foldPoly 1 (λ(x y z)(- (+ x y) z)))(plus 2 1(nullp)))
+     2)
+(test((foldPoly 80(λ(x y z)(* (- x y) z)))(nullp))
+     80)
+     
 
 ;; evalPoly
 
