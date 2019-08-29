@@ -54,7 +54,7 @@ RUT: 18.880.887-5
           #f))
 
 ;; removeZeros :: Polynomial -> Polynomial
-;; quita los terminos de un polinomio con coeficiente nulo
+;; Quita los terminos de un polinomio con coeficiente nulo
 (define (removeZeros p)
   (match p
     [(nullp) (nullp)]
@@ -64,8 +64,8 @@ RUT: 18.880.887-5
          (plus coef exp (removeZeros rem)))]))
 
 ;; sumaMonAux :: Number Integer Polynomial -> Polynomial
-;; retorna un polinomio al sumar c*x^m con un polinomio p
-;; el resultado no esta normalizado por la condicion (ii)
+;; Retorna un polinomio al sumar c*x^m con un polinomio p
+;; el resultado no esta normalizado por la condicion 2
 (define (sumaMonAux c m p)
   (match p
     [(nullp)(plus c m (nullp))]
@@ -110,14 +110,14 @@ RUT: 18.880.887-5
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 3      ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; sumaPoly :: Polynomial Polynomial -> Polynomial
-;; Suma dos polinomios (no necesariamente normalizados)
+;; Suma dos polinomios, el resultado está normalizado
 (define (sumaPoly p1 p2)
   (match (normalize p1)
     [(nullp) (normalize p2)]
     [(plus coef exp rem)(normalize (sumaMon coef exp (sumaPoly rem p2)))]))
 
 ;;mapPoly :: (Number Integer -> Number * Integer) Polynomial -> Polynomial
-;; devuelve el polinomio que resulta de aplicar f a cada coeficiente
+;; Devuelve el polinomio que resulta de aplicar f a cada coeficiente
 ;; y exponente de p
 (define (mapPoly f p)
   (match p
@@ -125,7 +125,7 @@ RUT: 18.880.887-5
     [(plus coef exp rem) (plus (car (f coef exp)) (cdr (f coef exp)) (mapPoly f rem))]))
 
 ;; multPoly :: Polynomial Polynomial -> Polynomial
-;; Multiplica dos polinomios (no necesariamente normalizados)
+;; Multiplica dos polinomios, el resultado está normalizado
 (define (multPoly p1 p2)
   (match p1
     [(nullp) (nullp)]
@@ -134,6 +134,7 @@ RUT: 18.880.887-5
 
 ;;;;;;;;;;;;;;;;;;;;;;     EJERICIO 4      ;;;;;;;;;;;;;;;;;;;;;;
 ;; foldPoly :: A (Number Integer A -> A) -> (Polynomial -> A)
+;; Captura el esquema de recursión estructural sobre Polynomial
 (define (foldPoly a f)
   (λ(p)
     (match p
